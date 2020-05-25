@@ -1,4 +1,5 @@
 mod enclave;
+mod encrypt;
 
 fn main() {
     // seal
