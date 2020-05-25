@@ -1,5 +1,5 @@
-use sgx_isa::{Report, Attributes, Miscselect, ErrorCode, Keyname, Keypolicy, Keyrequest};
 use rand::random;
+use sgx_isa::{Attributes, ErrorCode, Keyname, Keypolicy, Keyrequest, Miscselect, Report};
 
 // Info about how sealing key was derived.
 #[derive(Debug)]
@@ -8,7 +8,7 @@ pub struct SealData {
     isvsvn: u16,
     cpusvn: [u8; 16],
     attributes: Attributes,
-    miscselect: Miscselect, 
+    miscselect: Miscselect,
 }
 
 // get a key for sealing data
@@ -16,7 +16,6 @@ pub struct SealData {
 // use different labels for different types of data
 // SealData should be stored alongsize the ciphertext
 pub fn seal_key(label: [u8; 16]) -> ([u8; 16], SealData) {
-
     // get enclave report
     let report = Report::for_self();
 
@@ -40,11 +39,10 @@ pub fn seal_key(label: [u8; 16]) -> ([u8; 16], SealData) {
 // pass in same label used to get the sealing key
 // pass in the seal_data returned with the label
 pub fn unseal_key(label: [u8; 16], seal_data: SealData) -> Result<[u8; 16], ErrorCode> {
-
     let report = Report::for_self();
 
     if report.attributes != seal_data.attributes || report.miscselect != seal_data.miscselect {
-        return Err(ErrorCode::InvalidAttribute)
+        return Err(ErrorCode::InvalidAttribute);
     }
 
     egetkey(label, &seal_data)
@@ -52,7 +50,6 @@ pub fn unseal_key(label: [u8; 16], seal_data: SealData) -> Result<[u8; 16], Erro
 
 // derive a sealing key for the current enclave given label and seal data
 fn egetkey(label: [u8; 16], seal_data: &SealData) -> Result<[u8; 16], ErrorCode> {
-
     // form keyid
     let mut keyid = [0; 32];
     {
@@ -71,5 +68,6 @@ fn egetkey(label: [u8; 16], seal_data: &SealData) -> Result<[u8; 16], ErrorCode>
         keyid: keyid,
         miscmask: !0,
         ..Default::default()
-    }.egetkey()
+    }
+    .egetkey()
 }
