@@ -1,10 +1,9 @@
-use aes::Aes256;
-use aes::block_cipher_trait::BlockCipher;
 use aes::block_cipher_trait::generic_array::GenericArray;
+use aes::block_cipher_trait::BlockCipher;
+use aes::Aes256;
 
 // encrypt uses key to encrypt block with AES256
 pub fn encrypt(key: [u8; 16], mut block: [u8; 16]) {
-
     // create cipher
     let cipher = Aes256::new(GenericArray::from_slice(&key));
 
@@ -16,7 +15,6 @@ pub fn encrypt(key: [u8; 16], mut block: [u8; 16]) {
 
 // decrypt uses key to decrypt block with AES256
 pub fn decrypt(key: [u8; 16], mut block: [u8; 16]) {
-
     // create cipher
     let cipher = Aes256::new(GenericArray::from_slice(&key));
 
