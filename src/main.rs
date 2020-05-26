@@ -6,7 +6,6 @@ fn main() {
     let label: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
     // get mrenclave sealing key and seal data
-    // store both
     let (seal_key, seal_data) = enclave::seal_key(label);
 
     // TODO: will panic if plaintext ln is not a multiple of 16 bytes
@@ -16,7 +15,9 @@ fn main() {
     let mut encrypted = encrypt::encrypt(&seal_key, &mut plain_text);
 
     // delete key from memory to prevent leaks
-    // save data
+    drop(seal_key);
+
+    // store encrypted data and seal_data
 
     // get unseal key
     let unseal_key = enclave::unseal_key(label, seal_data).unwrap();
