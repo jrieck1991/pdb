@@ -2,18 +2,21 @@ mod enclave;
 mod encrypt;
 
 fn main() {
-    // seal
+    // get mrenclave sealing key
     let label: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-    println!("label {:?}", label);
-    let (cipher_text, seal_data) = enclave::seal_key(label);
-    println!(
-        "cipher_text: {:?}\n seal_data: {:?}",
-        cipher_text, seal_data
-    );
+    let (seal_key, _seal_data) = enclave::seal_key(label);
+
+    // TODO: will panic if plaintext ln is not a multiple of 16 bytes
+    let mut plain_text = String::from("jdhgywiqlakdlokj").into_bytes();
+
+    // encrypt data
+    let mut _encrypted = encrypt::encrypt(&seal_key, &mut plain_text);
+
+    // delete key from memory to prevent leaks
+    // save data
+
+    // use same key to decrypt
+    //let mut plain = encrypt::decrypt(&key, &mut encrypted);
 
     // unseal
-    match enclave::unseal_key(cipher_text, seal_data) {
-        Ok(label) => println!("label {:?}", label),
-        Err(e) => println!("unseal_key error: {:?}", e),
-    }
 }
