@@ -15,11 +15,9 @@ impl Client {
         }
     }
 
-    pub fn put() {
-
+    pub fn put(&self, key: &str, value: &str) {
     }
 
-    pub fn get() {
-
+    pub fn get(&self, key: &str){
     }
 }

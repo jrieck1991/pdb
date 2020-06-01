@@ -1,3 +1,5 @@
+#[cfg_attr(target_vendor = "fortanix", path = "enclave.rs")]
+#[cfg_attr(target_os = "macos", path = "enclave_mock.rs" )]
 mod enclave;
 mod encrypt;
 mod store;
