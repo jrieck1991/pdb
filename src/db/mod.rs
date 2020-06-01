@@ -63,8 +63,8 @@ impl DB {
         // use unseal key to decrypt
         let decrypted_value = encrypt::decrypt(&unseal_key, &mut value.to_vec());
 
-        // delete sealing key from memory
-        drop(seal_key);
+        // delete unsealing key from memory
+        drop(unseal_key);
 
         Some(decrypted_value)
     }
