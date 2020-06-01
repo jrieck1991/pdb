@@ -1,5 +1,6 @@
 mod enclave;
 mod encrypt;
+mod store;
 
 fn main() {
     // arbitrary label to apply with sealing key, store
