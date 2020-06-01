@@ -3,6 +3,8 @@ use sgx_isa::{Attributes, ErrorCode, Miscselect};
 
 // Mock enclave functions to facilitate local development
 
+const KEY: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
 #[derive(Debug)]
 pub struct SealData {
     rand: [u8; 16],
@@ -22,9 +24,9 @@ pub fn seal_key(_label: [u8; 16]) -> ([u8; 16], SealData) {
         miscselect: Miscselect::default(),
     };
 
-    (random(), seal_data)
+    (KEY, seal_data)
 }
 
 pub fn unseal_key(_label: [u8; 16], _seal_data: SealData) -> Result<[u8; 16], ErrorCode> {
-    Ok(random())
+    Ok(KEY)
 }
