@@ -5,6 +5,10 @@ mod encrypt;
 mod store;
 
 fn main() {
+
+    // init db
+    let db_client = store::Client::new("/tmp/store");
+
     // arbitrary label to apply with sealing key, store
     let label: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
@@ -21,6 +25,7 @@ fn main() {
     drop(seal_key);
 
     // store encrypted data and seal_data
+    db_client.put(&encrypted, "top_secret_stuff".as_bytes());
 
     // get unseal key
     let unseal_key = enclave::unseal_key(label, seal_data).unwrap();

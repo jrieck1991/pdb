@@ -6,8 +6,7 @@ pub struct Client {
 
 impl Client {
 
-    pub fn new() -> Client {
-        let path = "/tmp/store";
+    pub fn new(path: &str) -> Client {
         let d = DB::open_default(path).unwrap();
 
         Client {
@@ -15,17 +14,17 @@ impl Client {
         }
     }
 
-    pub fn put(&self, key: &str, value: &str) {
+    pub fn put(&self, key: &[u8], value: &[u8]) {
         self.db.put(key, value);
     }
 
-    pub fn get(&self, key: &str) -> Option<String> {
+    pub fn get(&self, key: &[u8]) -> Option<Vec<u8>> {
         match self.db.get(key) {
             Ok(opt_value) => match opt_value {
-                Some(value) => Some(String::from_utf8(value).unwrap()),
+                Some(value) => Some(value.to_vec()),
                 None => None,
             } 
-            Err(e) => None,
+            Err(_e) => None,
         }
     }
 }
