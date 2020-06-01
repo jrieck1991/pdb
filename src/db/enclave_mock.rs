@@ -16,7 +16,6 @@ pub struct SealData {
 // use different labels for different types of data
 // SealData should be stored alongsize the ciphertext
 pub fn seal_key(label: [u8; 16]) -> ([u8; 16], SealData) {
-    
     let seal_data = SealData {
         rand: random(),
 
