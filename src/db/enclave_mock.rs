@@ -1,7 +1,8 @@
 use rand::random;
 use sgx_isa::{Attributes, ErrorCode, Miscselect};
 
-// info about how sealing key was derived.
+// Mock enclave functions to facilitate local development
+
 #[derive(Debug)]
 pub struct SealData {
     rand: [u8; 16],
@@ -11,11 +12,7 @@ pub struct SealData {
     miscselect: Miscselect,
 }
 
-// get a key for sealing data
-// returned key may be used for AE
-// use different labels for different types of data
-// SealData should be stored alongsize the ciphertext
-pub fn seal_key(label: [u8; 16]) -> ([u8; 16], SealData) {
+pub fn seal_key(_label: [u8; 16]) -> ([u8; 16], SealData) {
     let seal_data = SealData {
         rand: random(),
 
@@ -28,10 +25,6 @@ pub fn seal_key(label: [u8; 16]) -> ([u8; 16], SealData) {
     (random(), seal_data)
 }
 
-// get a key for unsealing data
-// returned key can be used for AD
-// pass in same label used to get the sealing key
-// pass in the seal_data returned with the label
-pub fn unseal_key(label: [u8; 16], seal_data: SealData) -> Result<[u8; 16], ErrorCode> {
+pub fn unseal_key(_label: [u8; 16], _seal_data: SealData) -> Result<[u8; 16], ErrorCode> {
     Ok(random())
 }

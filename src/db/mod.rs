@@ -20,7 +20,7 @@ impl DB {
         let label: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
         // get mrenclave sealing key and seal data
-        let (seal_key, seal_data) = enclave::seal_key(label);
+        let (seal_key, _seal_data) = enclave::seal_key(label);
 
         // encrypt key
         // TODO: must be increments of 16 bytes
