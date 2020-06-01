@@ -3,6 +3,8 @@ use sgx_isa::{Attributes, ErrorCode, Miscselect};
 
 // Mock enclave functions to facilitate local development
 
+// returned key for seal_key and unseal_key functions
+// use the same key so that the "encryption" is consistent
 const KEY: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
 #[derive(Debug)]

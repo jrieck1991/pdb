@@ -1,4 +1,4 @@
-use rocksdb::{DB};
+use rocksdb::DB;
 
 pub struct Client {
     storage: DB,
