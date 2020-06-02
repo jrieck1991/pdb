@@ -18,7 +18,7 @@ fn main() {
     client.put(&key, &value);
 
     // get value
-    let value = match client.get(&key) {
+    let _value = match client.get(&key) {
         Some(value) => println!("value: {:?}", value),
         None => println!("no match found for key: {:?}", key),
     };

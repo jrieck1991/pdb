@@ -1,6 +1,6 @@
 use socket2::{Domain, SockAddr, Socket, Type};
 use std::io::{Read, Write};
-use std::net::SocketAddr;
+
 use std::os::unix::net::UnixStream;
 
 pub mod serialize;

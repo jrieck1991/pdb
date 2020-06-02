@@ -23,7 +23,7 @@ impl DB {
             match &data.action.as_str() {
                 &"put" => self.put(&data.key, &data.value),
                 &"get" => {
-                    let value = match self.get(&data.key) {
+                    let _value = match self.get(&data.key) {
                         Some(value) => {
                             // form data to send result back to client
                             let req = socket::serialize::Data {
