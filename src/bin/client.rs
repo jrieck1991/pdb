@@ -12,7 +12,7 @@ fn main() {
     let key = String::from("jdhgywiqlakdlokj").into_bytes();
 
     // TODO: will panic if value not in chunks of 16
-    let value = String::from("jdhgydjalakdloke").into_bytes();
+    let _value = String::from("jdhgydjalakdloke").into_bytes();
 
     // store data
     //println!("put value");

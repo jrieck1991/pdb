@@ -21,7 +21,7 @@ impl Unix {
     }
     pub fn write(&mut self, data: serialize::Data) {
         let encoded: Vec<u8> = serialize::serialize(data);
-        self.stream.write_all(&encoded);
+        self.stream.write_all(&encoded).unwrap();
     }
 
     pub fn read(&mut self) -> serialize::Data {
