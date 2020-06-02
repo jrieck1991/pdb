@@ -15,9 +15,11 @@ fn main() {
     let value = String::from("jdhgydjalakdloke").into_bytes();
 
     // store data
-    client.put(&key, &value);
+    //println!("put value");
+    //client.put(&key, &value);
 
     // get value
+    println!("get value");
     let _value = match client.get(&key) {
         Some(value) => println!("value: {:?}", value),
         None => println!("no match found for key: {:?}", key),

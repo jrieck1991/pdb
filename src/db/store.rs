@@ -1,4 +1,4 @@
-use rocksdb::DB;
+use rocksdb::{Error, DB};
 
 pub struct Client {
     storage: DB,
@@ -11,8 +11,11 @@ impl Client {
         Client { storage: db }
     }
 
-    pub fn put(&self, key: &[u8], value: &[u8]) {
-        self.storage.put(key, value);
+    pub fn put(&self, key: &[u8], value: &[u8]) -> Option<Error> {
+        match self.storage.put(key, value) {
+            Ok(()) => None,
+            Err(e) => Some(e),
+        }
     }
 
     pub fn get(&self, key: &[u8]) -> Option<Vec<u8>> {

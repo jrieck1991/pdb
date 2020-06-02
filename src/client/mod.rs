@@ -48,7 +48,7 @@ impl DB {
         // TODO arbitrary label to apply with sealing key, store
         let label: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
-        // get mrseal sealing key and seal data
+        // get mrenclave sealing key and seal data
         let (seal_key, seal_data) = seal::seal_key(label);
 
         // encrypt key

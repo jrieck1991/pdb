@@ -21,7 +21,7 @@ impl Unix {
     }
     pub fn write(&mut self, data: serialize::Data) {
         let encoded: Vec<u8> = serialize::serialize(data);
-        self.stream.write(&encoded);
+        self.stream.write_all(&encoded);
     }
 
     pub fn read(&mut self) -> serialize::Data {
@@ -63,7 +63,7 @@ fn listen(path: &str) -> UnixStream {
     socket.bind(&listen_addr).unwrap();
 
     // start listening
-    socket.listen(10);
+    socket.listen(10).unwrap();
 
     // block waiting for connection
     let (conn, _addr) = socket.accept().unwrap();

@@ -16,14 +16,20 @@ impl DB {
 
     pub fn handle(&mut self) {
         loop {
+            println!("top of loop");
+
             // receive data from unix stream
             let data: socket::serialize::Data = self.stream.read();
 
             // match action
             match &data.action.as_str() {
-                &"put" => self.put(&data.key, &data.value),
+                &"put" => {
+                    println!("put request received");
+                    self.put(&data.key, &data.value);
+                }
                 &"get" => {
-                    let _value = match self.get(&data.key) {
+                    println!("get request received");
+                    match self.get(&data.key) {
                         Some(value) => {
                             // form data to send result back to client
                             let req = socket::serialize::Data {
@@ -39,8 +45,11 @@ impl DB {
                             println!("no match found");
                         }
                     };
+                },
+                _ => {
+                    println!("no action match");
+                    return
                 }
-                _ => println!("no action: {}", data.action),
             }
         }
     }
