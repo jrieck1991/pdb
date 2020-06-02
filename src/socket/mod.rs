@@ -71,5 +71,3 @@ fn listen(path: &str) -> UnixStream {
     // convert to unix stream
     conn.into_unix_stream()
 }
-
-pub fn handle(socket: Socket) {}
