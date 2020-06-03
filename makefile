@@ -1,4 +1,4 @@
-.PHONY: dal trusted
+.PHONY: fix dal trusted
 
 fix:
 	cargo fix --target x86_64-apple-darwin
