@@ -7,4 +7,5 @@ Private DB
 * remote attestation
 * understand TCB
 * switch to aes-128-gcm
-* how do we accept requests from inside the enclave? tls?
+* TLS HTTP/2 frontend
+* use primitives to get uds comms to compile
