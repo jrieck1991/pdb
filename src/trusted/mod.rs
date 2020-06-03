@@ -16,9 +16,6 @@ impl Client {
     }
 
     pub fn put(&mut self, key: &[u8], value: &[u8]) {
-        // connect to dal
-        let mut stream = net::connect(&self.dal_addr);
-
         // TODO arbitrary label to apply with sealing key, store
         let label: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
@@ -43,14 +40,14 @@ impl Client {
             action: "put".to_string(),
         };
 
+        // connect to dal
+        let mut stream = net::connect(&self.dal_addr);
+
         // send to unix socket
         net::write(&mut stream, req);
     }
 
     pub fn get(&mut self, key: &[u8]) -> Option<Vec<u8>> {
-        // connect to dal
-        let mut stream = net::connect(&self.dal_addr);
-
         // TODO arbitrary label to apply with sealing key, store
         let label: [u8; 16] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
@@ -70,6 +67,9 @@ impl Client {
             value: [0; 1].to_vec(),
             action: "get".to_string(),
         };
+
+        // connect to dal
+        let mut stream = net::connect(&self.dal_addr);
 
         // send get key value pair request
         net::write(&mut stream, req);
