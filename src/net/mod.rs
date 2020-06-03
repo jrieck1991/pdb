@@ -20,7 +20,7 @@ pub fn read(stream: &mut UnixStream) -> Option<serialize::Data> {
 
     // detect closed connection
     if num_bytes_read == 0 {
-        return None
+        return None;
     };
 
     // deserialize bytes
@@ -60,7 +60,6 @@ pub fn listen(path: &str) -> Socket {
 }
 
 pub fn accept(socket: &Socket) -> UnixStream {
-
     // block waiting for connection
     let (conn, _addr) = socket.accept().unwrap();
 

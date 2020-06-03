@@ -10,14 +10,12 @@ pub struct Client {
 
 impl Client {
     pub fn new(addr: &str) -> Client {
-
         Client {
             dal_addr: addr.to_string(),
         }
     }
 
     pub fn put(&mut self, key: &[u8], value: &[u8]) {
-
         // connect to dal
         let mut stream = net::connect(&self.dal_addr);
 
@@ -50,7 +48,6 @@ impl Client {
     }
 
     pub fn get(&mut self, key: &[u8]) -> Option<Vec<u8>> {
-
         // connect to dal
         let mut stream = net::connect(&self.dal_addr);
 

@@ -15,7 +15,6 @@ impl DAL {
     }
 
     pub fn handle(&mut self) {
-
         // start listening on a unix domain socket
         let listen_socket = net::listen(self.listen_path.as_str());
 
@@ -28,7 +27,7 @@ impl DAL {
                 Some(data) => data,
                 None => {
                     println!("client closed connection");
-                    return
+                    return;
                 }
             };
 
@@ -56,7 +55,7 @@ impl DAL {
                             println!("no match found");
                         }
                     };
-                },
+                }
                 _ => {
                     println!("no action match");
                     //return
