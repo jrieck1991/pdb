@@ -1,25 +1,36 @@
 mod store;
-use crate::socket;
+use crate::net;
 
-pub struct DB {
-    stream: socket::Unix,
+pub struct DAL {
+    listen_path: String,
     storage: store::Client,
 }
 
-impl DB {
-    pub fn new(storage_path: &str, listen_path: &str) -> DB {
-        DB {
-            stream: socket::Unix::new("listen", listen_path),
+impl DAL {
+    pub fn new(storage_path: &str, listen_path: &str) -> DAL {
+        DAL {
+            listen_path: listen_path.to_string(),
             storage: store::Client::new(storage_path),
         }
     }
 
     pub fn handle(&mut self) {
+
+        // start listening on a unix domain socket
+        let listen_socket = net::listen(self.listen_path.as_str());
+
         loop {
-            println!("top of loop");
+            // accept connection and form new socket
+            let mut stream = net::accept(&listen_socket);
 
             // receive data from unix stream
-            let data: socket::serialize::Data = self.stream.read();
+            let data: net::serialize::Data = match net::read(&mut stream) {
+                Some(data) => data,
+                None => {
+                    println!("client closed connection");
+                    return
+                }
+            };
 
             // match action
             match &data.action.as_str() {
@@ -32,14 +43,14 @@ impl DB {
                     match self.get(&data.key) {
                         Some(value) => {
                             // form data to send result back to client
-                            let req = socket::serialize::Data {
+                            let req = net::serialize::Data {
                                 action: "get".to_string(),
                                 key: data.key,
                                 value: value,
                             };
 
-                            // send to stream
-                            self.stream.write(req)
+                            // write request to stream
+                            net::write(&mut stream, req);
                         }
                         None => {
                             println!("no match found");
@@ -48,7 +59,7 @@ impl DB {
                 },
                 _ => {
                     println!("no action match");
-                    return
+                    //return
                 }
             }
         }
