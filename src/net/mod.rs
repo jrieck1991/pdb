@@ -1,7 +1,6 @@
-use socket2::{Domain, SockAddr, Socket, Type};
 use std::io::{Read, Write};
 
-use std::os::unix::net::UnixStream;
+use std::os::unix::net::{UnixListener, UnixStream};
 
 pub mod serialize;
 
@@ -30,39 +29,15 @@ pub fn read(stream: &mut UnixStream) -> Option<serialize::Data> {
 }
 
 pub fn connect(path: &str) -> UnixStream {
-    // init unix domain socket
-    let socket = Socket::new(Domain::unix(), Type::stream(), None).unwrap();
-
-    // form peer address with given path
-    let peer_addr = SockAddr::unix(path).unwrap();
-
-    // connect to peer
-    socket.connect(&peer_addr).unwrap();
-
-    // convert to unix stream
-    socket.into_unix_stream()
+    UnixStream::connect(path).unwrap()
 }
 
-pub fn listen(path: &str) -> Socket {
-    // init unix domain socket
-    let socket = Socket::new(Domain::unix(), Type::stream(), None).unwrap();
-
-    // form listen address
-    let listen_addr = SockAddr::unix(path).unwrap();
-
-    // bind to socket
-    socket.bind(&listen_addr).unwrap();
-
-    // start listening
-    socket.listen(10).unwrap();
-
-    socket
+pub fn listen(path: &str) -> UnixListener {
+    UnixListener::bind(path).unwrap()
 }
 
-pub fn accept(socket: &Socket) -> UnixStream {
+pub fn accept(listener: &UnixListener) -> UnixStream {
     // block waiting for connection
-    let (conn, _addr) = socket.accept().unwrap();
-
-    // convert to unix stream
-    conn.into_unix_stream()
+    let (stream, _addr) = listener.accept().unwrap();
+    stream
 }

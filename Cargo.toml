@@ -12,5 +12,4 @@ rand = "0.7"
 aes = "0.3"
 rocksdb = "0.14"
 bincode = "1.2"
-socket2 = { version = "0.3", features = ["unix"] }
 serde = { version = "1.0", features = ["derive"] }
