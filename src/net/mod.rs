@@ -1,6 +1,6 @@
 use std::io::{Read, Write};
 
-use std::os::unix::net::{UnixStream, UnixListener};
+use std::os::unix::net::{UnixListener, UnixStream};
 
 pub mod serialize;
 
