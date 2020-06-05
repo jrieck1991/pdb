@@ -1,5 +1,4 @@
-extern crate pdb;
-use pdb::trusted;
+mod trusted;
 
 // encrypt data received from TLS
 // send either get or put request with data to unix socket

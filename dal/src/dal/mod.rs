@@ -1,5 +1,5 @@
 mod store;
-use crate::net;
+use lib::net;
 
 pub struct DAL {
     listen_path: String,

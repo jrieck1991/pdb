@@ -2,7 +2,7 @@ mod encrypt;
 #[cfg_attr(target_vendor = "fortanix", path = "seal/mod.rs")]
 #[cfg_attr(target_os = "macos", path = "seal/mock.rs")]
 mod seal;
-use crate::net;
+use lib::net;
 
 pub struct Client {
     dal_addr: String,
