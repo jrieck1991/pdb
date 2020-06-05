@@ -10,4 +10,4 @@ edition = "2018"
 sgx-isa = { version = "0.3", features = ["sgxstd"] }
 rand = "0.7"
 aes = "0.3"
-lib = { path = "../lib"}
+lib = { path = "../lib" }
