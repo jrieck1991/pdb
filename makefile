@@ -1,7 +1,7 @@
 .PHONY: dal trusted
 
 dal:
-	pushd dal && cargo build && popd
+	cd dal && cargo build && cd ..
 
 trusted:
-	pushd trusted && cargo build && popd
+	cd trusted && cargo build && cd ..
