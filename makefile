@@ -1,7 +1,7 @@
 .PHONY: dal trusted
 
 dal:
-	cd dal && cargo build && cd ..
+	cd dal && cargo +nightly build && cd ..
 
 trusted:
-	cd trusted && cargo build && cd ..
+	cd trusted && cargo +nightly build && cd ..
