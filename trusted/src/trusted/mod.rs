@@ -43,7 +43,7 @@ impl Client {
         // connect to dal
         let mut stream = net::connect(&self.dal_addr);
 
-        // send to unix socket
+        // write to stream
         net::write(&mut stream, req);
     }
 

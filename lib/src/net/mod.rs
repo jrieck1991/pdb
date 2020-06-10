@@ -1,15 +1,15 @@
 use std::io::{Read, Write};
 
-use std::os::unix::net::{UnixListener, UnixStream};
+use std::net::{TcpListener, TcpStream};
 
 pub mod serialize;
 
-pub fn write(stream: &mut UnixStream, data: serialize::Data) {
+pub fn write(stream: &mut TcpStream, data: serialize::Data) {
     let encoded: Vec<u8> = serialize::serialize(data);
     stream.write_all(&encoded).unwrap();
 }
 
-pub fn read(stream: &mut UnixStream) -> Option<serialize::Data> {
+pub fn read(stream: &mut TcpStream) -> Option<serialize::Data> {
     // init buffer of max data size
     let mut buf = [0; 1024];
 
@@ -28,15 +28,15 @@ pub fn read(stream: &mut UnixStream) -> Option<serialize::Data> {
     Some(data)
 }
 
-pub fn connect(path: &str) -> UnixStream {
-    UnixStream::connect(path).unwrap()
+pub fn connect(addr: &str) -> TcpStream {
+    TcpStream::connect(addr).unwrap()
 }
 
-pub fn listen(path: &str) -> UnixListener {
-    UnixListener::bind(path).unwrap()
+pub fn listen(addr: &str) -> TcpListener {
+    TcpListener::bind(addr).unwrap()
 }
 
-pub fn accept(listener: &UnixListener) -> UnixStream {
+pub fn accept(listener: &TcpListener) -> TcpStream {
     // block waiting for connection
     let (stream, _addr) = listener.accept().unwrap();
     stream

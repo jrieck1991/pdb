@@ -1,11 +1,8 @@
 mod trusted;
 
-// encrypt data received from TLS
-// send either get or put request with data to unix socket
-
 fn main() {
     // init client and connect to database
-    let mut client = trusted::Client::new("db.sock");
+    let mut client = trusted::Client::new("localhost:9999");
 
     // TODO: will panic if key not in chunks of 16
     let key = String::from("jdhgywiqlakdlokj").into_bytes();

@@ -2,27 +2,27 @@ mod store;
 use lib::net;
 
 pub struct DAL {
-    listen_path: String,
+    listen_addr: String,
     storage: store::Client,
 }
 
 impl DAL {
-    pub fn new(storage_path: &str, listen_path: &str) -> DAL {
+    pub fn new(storage_path: &str, listen_addr: &str) -> DAL {
         DAL {
-            listen_path: listen_path.to_string(),
+            listen_addr: listen_addr.to_string(),
             storage: store::Client::new(storage_path),
         }
     }
 
     pub fn handle(&mut self) {
-        // start listening on a unix domain socket
-        let listen_socket = net::listen(self.listen_path.as_str());
+        // start listening
+        let listener = net::listen(self.listen_addr.as_str());
 
         loop {
-            // accept connection and form new socket
-            let mut stream = net::accept(&listen_socket);
+            // accept new connection and create stream
+            let mut stream = net::accept(&listener);
 
-            // receive data from unix stream
+            // receive data from stream
             let data: net::serialize::Data = match net::read(&mut stream) {
                 Some(data) => data,
                 None => {
