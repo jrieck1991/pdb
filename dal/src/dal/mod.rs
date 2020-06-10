@@ -15,7 +15,7 @@ impl DAL {
     }
 
     pub fn handle(&mut self) {
-        // start listening 
+        // start listening
         let listener = net::listen(self.listen_addr.as_str());
 
         loop {

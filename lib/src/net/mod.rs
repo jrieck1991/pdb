@@ -1,6 +1,6 @@
 use std::io::{Read, Write};
 
-use std::net::{TcpStream, TcpListener};
+use std::net::{TcpListener, TcpStream};
 
 pub mod serialize;
 
