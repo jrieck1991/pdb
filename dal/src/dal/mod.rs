@@ -15,14 +15,14 @@ impl DAL {
     }
 
     pub fn handle(&mut self) {
-        // start listening on a unix domain socket
-        let listen_socket = net::listen(self.listen_addr.as_str());
+        // start listening 
+        let listener = net::listen(self.listen_addr.as_str());
 
         loop {
-            // accept connection and form new socket
-            let mut stream = net::accept(&listen_socket);
+            // accept new connection and create stream
+            let mut stream = net::accept(&listener);
 
-            // receive data from unix stream
+            // receive data from stream
             let data: net::serialize::Data = match net::read(&mut stream) {
                 Some(data) => data,
                 None => {
