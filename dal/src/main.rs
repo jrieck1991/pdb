@@ -5,7 +5,7 @@ mod dal;
 
 fn main() {
     // init db client with storage dir and unix socket listen path
-    let mut client = dal::DAL::new("data", "db.sock");
+    let mut client = dal::DAL::new("data", "localhost:9999");
 
     // begin handling requests from clients
     client.handle()

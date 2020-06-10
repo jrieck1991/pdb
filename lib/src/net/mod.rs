@@ -28,12 +28,12 @@ pub fn read(stream: &mut TcpStream) -> Option<serialize::Data> {
     Some(data)
 }
 
-pub fn connect(path: &str) -> TcpStream {
-    TcpStream::connect(path).unwrap()
+pub fn connect(addr: &str) -> TcpStream {
+    TcpStream::connect(addr).unwrap()
 }
 
-pub fn listen(path: &str) -> TcpListener {
-    TcpListener::bind(path).unwrap()
+pub fn listen(addr: &str) -> TcpListener {
+    TcpListener::bind(addr).unwrap()
 }
 
 pub fn accept(listener: &TcpListener) -> TcpStream {
