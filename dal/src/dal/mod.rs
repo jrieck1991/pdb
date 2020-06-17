@@ -17,7 +17,6 @@ impl DAL {
     }
 
     pub fn handle(&mut self) {
-
         loop {
             // accept new connection and create stream
             let mut stream = self.tcp_server.accept(&listener);

@@ -10,7 +10,6 @@ pub struct Server {
 
 impl Server {
     pub fn new(addr: &str) -> Server {
-
         // bind to addr
         let l = TcpListener::bind(&addr).unwrap();
 
@@ -33,7 +32,6 @@ pub struct Client {
 
 impl Client {
     pub fn new(addr: &str) -> Client {
-
         Client {
             connect_addr: addr.to_string(),
             io: IO::new(),
@@ -49,7 +47,7 @@ pub struct IO {}
 
 impl IO {
     pub fn new() -> IO {
-        IO{}
+        IO {}
     }
 
     pub fn read(&self, stream: &mut TcpStream) -> Option<serialize::Data> {
@@ -70,7 +68,6 @@ impl IO {
 
         Some(data)
     }
-
 
     pub fn write(&self, stream: &mut TcpStream, data: serialize::Data) {
         let encoded: Vec<u8> = serialize::serialize(data);
