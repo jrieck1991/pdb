@@ -5,13 +5,15 @@ mod seal;
 use lib::net;
 
 pub struct Client {
-    dal_addr: String,
+    tcp_server: net::Server,
+    tcp_client: net::Client,
 }
 
 impl Client {
-    pub fn new(addr: &str) -> Client {
+    pub fn new(listen_addr: &str, connect_addr: &str) -> Client {
         Client {
-            dal_addr: addr.to_string(),
+            tcp_server: net::Server::new(listen_addr),
+            tcp_client: net::Client::new(connect_addr),
         }
     }
 
@@ -41,10 +43,10 @@ impl Client {
         };
 
         // connect to dal
-        let mut stream = net::connect(&self.dal_addr);
+        let mut stream = self.tcp_client.connect();
 
         // write to stream
-        net::write(&mut stream, req);
+        self.tcp_client.io.write(&mut stream, req);
     }
 
     pub fn get(&mut self, key: &[u8]) -> Option<Vec<u8>> {
@@ -69,13 +71,13 @@ impl Client {
         };
 
         // connect to dal
-        let mut stream = net::connect(&self.dal_addr);
+        let mut stream = self.tcp_client.connect();
 
         // send get key value pair request
-        net::write(&mut stream, req);
+        self.tcp_client.io.write(&mut stream, req);
 
         // read response
-        let data = match net::read(&mut stream) {
+        let data = match self.tcp_client.io.read(&mut stream) {
             Some(data) => data,
             None => return None,
         };
