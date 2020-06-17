@@ -4,6 +4,7 @@ use lib::net;
 pub struct DAL {
     listen_addr: String,
     storage: store::Client,
+    tcp_server: net::Server,
 }
 
 impl DAL {
@@ -11,19 +12,18 @@ impl DAL {
         DAL {
             listen_addr: listen_addr.to_string(),
             storage: store::Client::new(storage_path),
+            tcp_server: net::Server::new(listen_addr),
         }
     }
 
     pub fn handle(&mut self) {
-        // start listening
-        let listener = net::listen(self.listen_addr.as_str());
 
         loop {
             // accept new connection and create stream
-            let mut stream = net::accept(&listener);
+            let mut stream = self.tcp_server.accept(&listener);
 
             // receive data from stream
-            let data: net::serialize::Data = match net::read(&mut stream) {
+            let data: net::serialize::Data = match self.tcp_server.io.read(&mut stream) {
                 Some(data) => data,
                 None => {
                     println!("client closed connection");
@@ -49,7 +49,7 @@ impl DAL {
                             };
 
                             // write request to stream
-                            net::write(&mut stream, req);
+                            self.tcp_server.io.write(&mut stream, req);
                         }
                         None => {
                             println!("no match found");
@@ -58,7 +58,6 @@ impl DAL {
                 }
                 _ => {
                     println!("no action match");
-                    //return
                 }
             }
         }
