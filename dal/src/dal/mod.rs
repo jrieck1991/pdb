@@ -2,7 +2,6 @@ mod store;
 use lib::net;
 
 pub struct DAL {
-    listen_addr: String,
     storage: store::Client,
     tcp_server: net::Server,
 }
@@ -10,7 +9,6 @@ pub struct DAL {
 impl DAL {
     pub fn new(storage_path: &str, listen_addr: &str) -> DAL {
         DAL {
-            listen_addr: listen_addr.to_string(),
             storage: store::Client::new(storage_path),
             tcp_server: net::Server::new(listen_addr),
         }
@@ -19,7 +17,7 @@ impl DAL {
     pub fn handle(&mut self) {
         loop {
             // accept new connection and create stream
-            let mut stream = self.tcp_server.accept(&listener);
+            let mut stream = self.tcp_server.accept();
 
             // receive data from stream
             let data: net::serialize::Data = match self.tcp_server.io.read(&mut stream) {
