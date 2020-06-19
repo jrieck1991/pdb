@@ -1,6 +1,6 @@
-use std::net::{TcpStream};
-use std::str;
 use lib::net;
+use std::net::TcpStream;
+use std::str;
 
 pub struct Client {
     client: net::Client,
@@ -9,19 +9,17 @@ pub struct Client {
 
 impl Client {
     pub fn new(addr: &str) -> Client {
-
         // init client and connect to db
         let tcp_client = net::Client::new(addr);
         let tcp_stream = tcp_client.connect();
 
-        Client{
+        Client {
             client: tcp_client,
             stream: tcp_stream,
         }
     }
 
     pub fn get(&mut self, key: &str) -> Option<String> {
-
         // form get
         let req = net::serialize::Data {
             key: String::from(key).into_bytes(),
@@ -40,7 +38,6 @@ impl Client {
     }
 
     pub fn put(&mut self, key: &str, value: &str) {
-
         // form put
         let req = net::serialize::Data {
             key: String::from(key).into_bytes(),
@@ -50,6 +47,5 @@ impl Client {
 
         // write request
         self.client.io.write(&mut self.stream, req);
-
     }
 }

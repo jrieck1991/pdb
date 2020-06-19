@@ -1,7 +1,6 @@
 mod client;
 
 fn main() {
-
     let key = String::from("jklsdoqanzkertvc");
     let value = String::from("owejdnbcxbtlkyfd");
 
