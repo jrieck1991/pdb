@@ -1,21 +1,17 @@
-use lib::net;
+mod client;
 
 fn main() {
-
     let key = String::from("jklsdoqanzkertvc");
     let value = String::from("owejdnbcxbtlkyfd");
 
-    // init client and connect to db
-    let client = net::Client::new("localhost:9998");
-    let mut stream = client.connect();
+    // init client
+    let mut client = client::Client::new("localhost:9998");
 
-    // form put
-    let put_req = net::serialize::Data {
-        key: key.into_bytes(),
-        value: value.into_bytes(),
-        action: "put".to_string(),
-    };
+    // put records
+    client.put(&key, &value);
 
-    // write request
-    client.io.write(&mut stream, put_req);
+    // get record
+    let value = client.get(&key);
+
+    println!("value: {:?}", value);
 }
