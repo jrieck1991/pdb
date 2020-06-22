@@ -18,6 +18,7 @@ impl Client {
         loop {
             // wait for new connection
             let mut stream = self.tcp_server.accept();
+            println!("new conn");
 
             // receive data from stream
             let data: net::serialize::Data = match self.tcp_server.io.read(&mut stream) {
