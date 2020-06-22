@@ -1,4 +1,4 @@
-.PHONY: dal trusted client mac
+.PHONY: dal trusted client mac mac_dal mac_trusted mac_client
 
 dal:
 	cd dal && cargo +nightly build && cd ..
