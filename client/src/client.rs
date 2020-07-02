@@ -20,6 +20,8 @@ impl Client {
     }
 
     pub fn get(&mut self, key: &str) -> Option<String> {
+        println!("calling get");
+
         // form get
         let req = net::serialize::Data {
             key: String::from(key).into_bytes(),
@@ -38,6 +40,8 @@ impl Client {
     }
 
     pub fn put(&mut self, key: &str, value: &str) {
+        println!("calling put");
+
         // form put
         let req = net::serialize::Data {
             key: String::from(key).into_bytes(),

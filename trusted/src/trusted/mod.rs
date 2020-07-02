@@ -18,43 +18,48 @@ impl Client {
         loop {
             // wait for new connection
             let mut stream = self.tcp_server.accept();
+            println!("new conn");
 
-            // receive data from stream
-            let data: net::serialize::Data = match self.tcp_server.io.read(&mut stream) {
-                Some(data) => data,
-                None => {
-                    println!("client closed connection");
-                    return;
-                }
-            };
+            loop {
 
-            // match action
-            match &data.action.as_str() {
-                &"put" => {
-                    println!("put request received");
-                    self.store.put(&data.key, &data.value);
-                }
-                &"get" => {
-                    println!("get request received");
-                    match self.store.get(&data.key) {
-                        Some(value) => {
-                            // form data to send result back to client
-                            let req = net::serialize::Data {
-                                action: "get".to_string(),
-                                key: data.key,
-                                value: value,
-                            };
+                // receive data from stream
+                let data: net::serialize::Data = match self.tcp_server.io.read(&mut stream) {
+                    Some(data) => data,
+                    None => {
+                        println!("client closed connection");
+                        break;
+                    }
+                };
 
-                            // write request to stream
-                            self.tcp_server.io.write(&mut stream, req);
-                        }
-                        None => {
-                            println!("no match found");
-                        }
-                    };
-                }
-                _ => {
-                    println!("no action match");
+                // match action
+                match &data.action.as_str() {
+                    &"put" => {
+                        println!("put request received");
+                        self.store.put(&data.key, &data.value);
+                    }
+                    &"get" => {
+                        println!("get request received");
+                        match self.store.get(&data.key) {
+                            Some(value) => {
+                                // form data to send result back to client
+                                let req = net::serialize::Data {
+                                    action: "get".to_string(),
+                                    key: data.key,
+                                    value: value,
+                                };
+
+                                // write request to stream
+                                self.tcp_server.io.write(&mut stream, req);
+                            }
+                            None => {
+                                println!("no match found");
+                            }
+                        };
+                    }
+                    _ => {
+                        println!("no action match, closing connection");
+                        break;
+                    }
                 }
             }
         }
